@@ -1,0 +1,35 @@
+# ================================================================
+# train_bb2t1ce.yml
+# BB → T1CE Diffusion 학습 설정
+# ================================================================
+
+data:
+  bb_dir: "/workspace/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/data/0_RAW_DATA/meta-bb"
+  t1ce_dir: "/workspace/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/data/0_RAW_DATA/meta-t1ce"
+  image_size: [256, 256]
+  resample_spacing: [1.0, 1.0, 1.0]
+  num_workers: 4
+  batch_size: 1
+
+model:
+  config_file: "configs/model_unet.yml"
+
+training:
+  n_epochs: 100
+  loss_type: "l2"          # l1, l2, or hybrid
+  ckpt_dir: "./logs/checkpoints"
+  save_interval: 5         # 몇 epoch마다 저장할지
+
+optimizer:
+  type: "adamw"
+  lr: 1e-4
+  weight_decay: 1e-6
+
+diffusion:
+  timesteps: 1000          # β schedule steps
+  beta_start: 1e-4
+  beta_end: 2e-2
+
+device:
+  gpu: true
+  mixed_precision: false

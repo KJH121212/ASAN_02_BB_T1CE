@@ -1,0 +1,127 @@
+# ================================================================
+# BB→T1CE Diffusion Project Git Ignore
+# ================================================================
+
+# ------------------------------
+# Security / Credentials
+# ------------------------------
+.env
+*.key
+*.pem
+*.p12
+*.crt
+*.cer
+*.json
+
+# ------------------------------
+# OS / IDE / Editor
+# ------------------------------
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+*.log
+.vscode/
+.idea/
+*.code-workspace
+
+# ------------------------------
+# Python / Virtual Env
+# ------------------------------
+env/
+venv/
+.venv/
+ENV/
+.ipynb_checkpoints/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+*.egg
+*.so
+
+# ------------------------------
+# Dataset / Medical Data
+# ------------------------------
+data/
+*.nii
+*.nii.gz
+*.dcm
+*.mha
+*.npz
+*.npy
+*.csv
+*.h5
+
+# ------------------------------
+# Training Outputs / Logs
+# ------------------------------
+logs/
+outputs/
+wandb/
+checkpoints/
+runs/
+lightning_logs/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.tflite
+
+# ------------------------------
+# Temporary Files / Visual Results
+# ------------------------------
+*.tiff
+*.tif
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.mp4
+*.avi
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.npy
+
+# ------------------------------
+# Docker / System / Cache
+# ------------------------------
+Dockerfile~
+.dockerignore
+*.log
+*.pid
+*.out
+*.err
+*.bak
+*.tar
+*.tar.gz
+*.gz
+*.tmp
+*.lock
+.cache/
+__pycache__/
+*.ipynb_checkpoints/
+
+# ------------------------------
+# Jupyter Notebooks / Reports
+# ------------------------------
+.ipynb_checkpoints/
+notebooks/
+*.nbconvert.ipynb
+
+# ------------------------------
+# Build / Package Artifacts
+# ------------------------------
+dist/
+build/
+*.egg-info/
+*.manifest
+*.spec
