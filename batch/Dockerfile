@@ -48,4 +48,8 @@ RUN pip install --no-cache-dir -U pip setuptools wheel \
     pandas \
     tqdm \
     matplotlib \
-    wandb
+    wandb \
+    SimpleITK \
+    omegaconf \
+    scipy \
+    pytorch-fid

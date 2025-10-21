@@ -1,0 +1,110 @@
+# ================================================================
+# BB2T1CE Diffusion Config Template (정리본)
+# ================================================================
+
+# ------------------------------------------------------------
+# [Experiment Info]
+# ------------------------------------------------------------
+exp:
+  name: "BB2T1CE_localtest"                           # 실험 이름
+  log_dir: "/workspace/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/logs"             # 로그 저장 경로
+  ckpt_dir: "/workspace/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/logs/checkpoints" # 체크포인트 저장 경로
+  seed: 42                                            # 랜덤 시드 (재현성)
+  save_interval: 1000                                 # 체크포인트 저장 주기 (step 단위)
+  eval_interval: 500                                  # validation 주기
+  device: "cuda"                                      # 기본 디바이스 설정
+
+
+# ------------------------------------------------------------
+# [Dataset Info]
+# ------------------------------------------------------------
+data:
+  root_dir: "/workspace/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/data/0_RAW_DATA" # 데이터 루트 디렉토리
+  bb_dir: "meta-bb"                                     # BB 볼륨 폴더명
+  t1ce_dir: "meta-t1ce"                                 # T1CE 볼륨 폴더명
+  n_slices_per_vol: 4                                   # 한 볼륨당 사용할 슬라이스 개수
+  batch_size: 2                                         # 학습 배치 크기
+  num_workers: 2                                        # DataLoader 병렬 작업 수
+  image_size: 256                                       # 입력 이미지 크기 (H=W)
+  channels: 1                                           # 입력 채널 수
+  shuffle: True                                         # 데이터 섞기 여부
+  pin_memory: True                                      # CUDA pinned memory 사용 여부
+
+
+# ------------------------------------------------------------
+# [Model Architecture]
+# ------------------------------------------------------------
+model:
+  # --------------------------------------------------------
+  # [Input / Output]
+  # --------------------------------------------------------
+  in_channels: 2          # 입력 이미지 채널 수 (ex. BB + noisy T1CE)
+  out_ch: 1               # 출력 채널 수 (예측할 노이즈 or 복원 이미지)
+
+  # --------------------------------------------------------
+  # [Network capacity]
+  # --------------------------------------------------------
+  ch: 64                  # 첫 convolution의 base channel 수
+  ch_mult: [1, 2, 4, 8]   # 각 해상도 단계별 채널 multiplier
+  num_res_blocks: 2       # 각 단계별 residual block 개수
+  attn_resolutions: [16]  # self-attention을 적용할 해상도
+  dropout: 0.1            # dropout 비율
+  resamp_with_conv: True  # 업/다운샘플 시 convolution 사용 여부
+
+  # --------------------------------------------------------
+  # [Training-specific]
+  # --------------------------------------------------------
+  use_ema: True           # EMA(지수이동평균) 사용 여부
+  ema_decay: 0.9999       # EMA decay factor
+  learn_sigma: False      # sigma(노이즈 scale) 학습 여부
+  sigma_small: False      # noise sigma 작게 설정 여부
+  mean_type: eps          # 모델이 예측하는 target ('eps', 'x_start' 등)
+  var_type: fixedlarge    # 분산 추정 방식 ('fixedsmall', 'fixedlarge')
+
+
+# ------------------------------------------------------------
+# [Diffusion Process Hyperparameters]
+# ------------------------------------------------------------
+diffusion:
+  beta_schedule: "linear"                              # beta 스케줄 타입 (linear / cosine)
+  beta_start: 0.0001                                   # beta 시작값
+  beta_end: 0.02                                       # beta 종료값
+  num_diffusion_timesteps: 1000                        # diffusion step 개수
+  sample_method: "ddpm"                                # 샘플링 방식 (ddpm / ddim)
+  loss_type: "l2"                                      # loss 함수 (l1 / l2)
+
+
+# ------------------------------------------------------------
+# [Optimizer & Scheduler]
+# ------------------------------------------------------------
+optim:
+  optimizer: "adamw"                                   # optimizer 종류
+  lr: 1e-4                                             # learning rate
+  weight_decay: 0.01                                   # weight decay
+  grad_clip: 1.0                                       # gradient clipping 한계
+  scheduler: "cosine"                                  # learning rate 스케줄러 타입 (optional)
+  warmup_steps: 500                                    # warmup 단계 수
+
+
+# ------------------------------------------------------------
+# [Training Parameters]
+# ------------------------------------------------------------
+training:
+  epochs: 10                                           # 전체 학습 epoch 수
+  print_freq: 1                                        # 로그 출력 주기 (step 단위)
+  save_best_only: True                                 # val 성능 기준 best만 저장
+  resume_ckpt: null                                    # 이어서 학습할 checkpoint (없으면 null)
+  mixed_precision: True                                # FP16 혼합 정밀도 학습 사용 여부
+  ema_start_step: 5000                                 # EMA 적용 시작 step
+  val_split_ratio: 0.1                                 # train/val 데이터 분할 비율
+  num_diffusion_steps_train: 1000                      # 학습 시 사용할 diffusion step 수 (선택적)
+
+
+# ------------------------------------------------------------
+# [Evaluation / Sampling]
+# ------------------------------------------------------------
+eval:
+  save_samples: True                                   # 샘플 이미지 저장 여부
+  sample_interval: 200                                 # 샘플 생성 주기 (step 단위)
+  num_samples: 4                                       # 한 번에 생성할 샘플 수
+  save_dir: "/workspace/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/logs/samples"

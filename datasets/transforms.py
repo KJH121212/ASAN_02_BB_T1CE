@@ -1,75 +1,54 @@
 # ================================================================
 # datasets/transforms.py
-# BB–T1CE Dataset 전처리 및 Augmentation 함수 정의 (5D 대응)
 # ================================================================
-
 import torch
 import random
+from .utils import resize_2d
 
-# ---------------------------------------------------------------
-# (1) 랜덤 슬라이스 선택
-# ---------------------------------------------------------------
-def random_slice(bb_tensor, t1ce_tensor, n_slices=8):
-    """3D 볼륨에서 연속된 슬라이스 n개를 랜덤하게 선택
-    Args:
-        bb_tensor (torch.Tensor): (B, C, Z, H, W)
-        t1ce_tensor (torch.Tensor): (B, C, Z, H, W)
-    Returns:
-        (torch.Tensor, torch.Tensor): (B, C, n_slices, H, W)
+def bb2t1ce_transform(bb_tensor, t1ce_tensor, crop_size=(256, 256), flip_prob=0.5, use_resize=True):
     """
-    z = bb_tensor.shape[2]
-    if z <= n_slices:
-        return bb_tensor, t1ce_tensor
+    BB → T1CE 학습용 transform
+    Args:
+        bb_tensor, t1ce_tensor: (H,W) or (1,H,W) or (1,1,H,W)
+    Returns:
+        (bb_t, t1ce_t): 동일 크기의 2D Tensor (1,1,H,W)
+    """
 
-    start_idx = random.randint(0, z - n_slices)
-    end_idx = start_idx + n_slices
-    bb_crop = bb_tensor[:, :, start_idx:end_idx, :, :]
-    t1ce_crop = t1ce_tensor[:, :, start_idx:end_idx, :, :]
-    return bb_crop, t1ce_crop
+    # ------------------------------------------------------------
+    # 1️⃣ 입력 차원 보정
+    # ------------------------------------------------------------
+    # numpy에서 불러온 경우 (H, W)
+    if bb_tensor.ndim == 2:
+        bb_tensor = bb_tensor.unsqueeze(0).unsqueeze(0)  # (1,1,H,W)
+    elif bb_tensor.ndim == 3:
+        bb_tensor = bb_tensor.unsqueeze(0)  # (1,1,H,W)
+    # 이미 (1,1,H,W)면 그대로 둠
 
+    if t1ce_tensor.ndim == 2:
+        t1ce_tensor = t1ce_tensor.unsqueeze(0).unsqueeze(0)
+    elif t1ce_tensor.ndim == 3:
+        t1ce_tensor = t1ce_tensor.unsqueeze(0)
 
-# ---------------------------------------------------------------
-# (2) 중앙 crop
-# ---------------------------------------------------------------
-def center_crop(tensor, crop_size=(256, 256)):
-    h, w = tensor.shape[-2:]
-    ch, cw = crop_size
-    top = (h - ch) // 2
-    left = (w - cw) // 2
-    return tensor[..., top:top + ch, left:left + cw]
+    # ------------------------------------------------------------
+    # 2️⃣ Resize or Random Crop
+    # ------------------------------------------------------------
+    if use_resize:
+        bb_tensor, t1ce_tensor = resize_2d(bb_tensor, t1ce_tensor, target_size=crop_size)
+    else:
+        h, w = bb_tensor.shape[-2:]
+        top = torch.randint(0, h - crop_size[0] + 1, (1,)).item()
+        left = torch.randint(0, w - crop_size[1] + 1, (1,)).item()
+        bb_tensor = bb_tensor[..., top:top + crop_size[0], left:left + crop_size[1]]
+        t1ce_tensor = t1ce_tensor[..., top:top + crop_size[0], left:left + crop_size[1]]
 
-
-# ---------------------------------------------------------------
-# (3) 랜덤 crop
-# ---------------------------------------------------------------
-def random_crop(tensor, crop_size=(256, 256)):
-    h, w = tensor.shape[-2:]
-    ch, cw = crop_size
-    if h <= ch or w <= cw:
-        return tensor
-    top = random.randint(0, h - ch)
-    left = random.randint(0, w - cw)
-    return tensor[..., top:top + ch, left:left + cw]
-
-
-# ---------------------------------------------------------------
-# (4) 랜덤 flip
-# ---------------------------------------------------------------
-def random_flip(bb_tensor, t1ce_tensor, p=0.5):
-    if random.random() < p:
-        bb_tensor = torch.flip(bb_tensor, dims=[-1])  # 좌우 flip
+    # ------------------------------------------------------------
+    # 3️⃣ Random horizontal flip
+    # ------------------------------------------------------------
+    if random.random() < flip_prob:
+        bb_tensor = torch.flip(bb_tensor, dims=[-1])
         t1ce_tensor = torch.flip(t1ce_tensor, dims=[-1])
-    if random.random() < p:
-        bb_tensor = torch.flip(bb_tensor, dims=[-2])  # 상하 flip
-        t1ce_tensor = torch.flip(t1ce_tensor, dims=[-2])
-    return bb_tensor, t1ce_tensor
 
-
-# ---------------------------------------------------------------
-# (5) 전체 transform pipeline
-# ---------------------------------------------------------------
-def bb2t1ce_transform(bb_tensor, t1ce_tensor):
-    assert bb_tensor.ndim == 4, f"Expected 4D (B,C,H,W), got {bb_tensor.shape}"
-    assert t1ce_tensor.ndim == 4, f"Expected 4D (B,C,H,W), got {t1ce_tensor.shape}"
-    # 여기에 2D augment (flip, crop 등)만 적용
+    # ------------------------------------------------------------
+    # 4️⃣ 출력
+    # ------------------------------------------------------------
     return bb_tensor, t1ce_tensor

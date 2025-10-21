@@ -1,16 +1,13 @@
 # ================================================================
 # datasets/__init__.py
-# Dataset package initializer
 # ================================================================
-
-from .bb2t1ce_dataset import get_bb2t1ce_dataloader
+from .bb2t1ce_dataset import BB2T1CE_Dataset
 from .transforms import bb2t1ce_transform
-from .utils import rescale_to_unit, tensor_info, save_slice_preview
+from .utils import rescale_intensity, normalize_tensor
 
 __all__ = [
-    "get_bb2t1ce_dataloader",
+    "BB2T1CEDataset2D",
     "bb2t1ce_transform",
-    "rescale_to_unit",
-    "tensor_info",
-    "save_slice_preview",
+    "rescale_intensity",
+    "normalize_tensor",
 ]

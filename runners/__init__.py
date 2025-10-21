@@ -1,10 +1,7 @@
 # ================================================================
 # runners/__init__.py
-# Training / Validation / Testing runners initializer
+# Diffusion model training and sampling pipeline entrypoint
 # ================================================================
 
-from .trainer import Trainer
-from .validator import Validator
-from .tester import Tester
-
-__all__ = ["Trainer", "Validator", "Tester"]
+from .trainer_ddpm import TrainerDDPM
+from .sampler_ddpm import SamplerDDPM

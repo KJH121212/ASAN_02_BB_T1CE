@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH -J jupyter
 #SBATCH -t 7-00:00:00
-#SBATCH -o /mnt/nas203/ds_RehabilitationMedicineData/IDs/Kimjihoo/3_project_HCCmove/batch/logs/%A.out
+#SBATCH -o /mnt/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/batch/logs/%A.out
 #SBATCH --mail-type END,TIME_LIMIT_90,REQUEUE,INVALID_DEPEND
 #SBATCH --mail-user jihu6033@gmail.com
-#SBATCH -p RTX3090
+#SBATCH -p TitanRTX
 #SBATCH --gpus 1
 
 
@@ -24,7 +24,7 @@ ENV_FILE_PATH="./.env"
 docker build -t ${DOCKER_IMAGE_NAME} -f Dockerfile .
 docker run -it --rm --device=nvidia.com/gpu=all --shm-size 1TB \
     --name "${DOCKER_CONTAINER_NAME}" \
-    --env-file ${ENV_FILE_PATH}
+    --env-file ${ENV_FILE_PATH} \
     -e JUPYTER_ENABLE_LAB=yes \
     -p ${DEF_PORT}:${DEF_PORT} \
     -v /mnt:/workspace \

@@ -1,12 +1,10 @@
 # ================================================================
-# models/__init__.py
-# Model package initializer
+# models/__init__.py (정리 버전)
 # ================================================================
-
-from .diffusion_unet_custom import DiffusionUNetCustom
-from .ema import EMAHelper
+from .unet_ddpm import Model
+from .ema_helper import EMAHelper
 
 __all__ = [
-    "DiffusionUNetCustom",
-    "EMAHelper"
+    "Model",
+    "EMAHelper",
 ]
