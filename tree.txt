@@ -4,11 +4,13 @@
 │   ├── ./batch/Dockerfile
 │   └── ./batch/logs
 │       ├── ./batch/logs/74353.out
-│       └── ./batch/logs/74356.out
+│       ├── ./batch/logs/74356.out
+│       ├── ./batch/logs/74437.out
+│       ├── ./batch/logs/74439.out
+│       └── ./batch/logs/74515.out
 ├── ./configs
-│   ├── ./configs/model_unet.yml
-│   ├── ./configs/test_bb2t1ce.yml
-│   └── ./configs/train_bb2t1ce.yml
+│   ├── ./configs/bb2t1ce_train.yml
+│   └── ./configs/ddpm.yml
 ├── ./data
 │   ├── ./data/0_RAW_DATA
 │   │   ├── ./data/0_RAW_DATA/meta-bb
@@ -403,416 +405,322 @@
 │   │   │       └── ./data/0_RAW_DATA/meta-bb/@eaDir/60538970_tp20210202_roi.nii.gz@SynoEAStream
 │   │   ├── ./data/0_RAW_DATA/meta-t1ce
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/12028537_tp20201206_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/12028537_tp20201206_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/13771269_tp20201224_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/13771269_tp20201224_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/15369028_tp20201215_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/15369028_tp20201215_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/17530376_tp20201104_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/17530376_tp20201104_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/18482526_tp20210129_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/18482526_tp20210129_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/18849484_tp20201124_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/18849484_tp20201124_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/19002581_tp20201106_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/19002581_tp20201106_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/19722063_tp20201127_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/19722063_tp20201127_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/20721084_tp20201219_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/20721084_tp20201219_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/20851512_tp20201209_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/20851512_tp20201209_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/21554713_tp20210128_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/21554713_tp20210128_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/22354930_tp20201231_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/22354930_tp20201231_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/24358370_tp20201105_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/24358370_tp20201105_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/24365316_tp20201222_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/24365316_tp20201222_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/25401378_tp20201208_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/25401378_tp20201208_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/29808508_tp20201104_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/29808508_tp20201104_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/30020803_tp20201212_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/30020803_tp20201212_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/31861595_tp20210116_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/31861595_tp20210116_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/33299064_tp20201116_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/33299064_tp20201116_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/34339097_tp20201124_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/34339097_tp20201124_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/34415643_tp20201221_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/34415643_tp20201221_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/35201296_tp20210108_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/35201296_tp20210108_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/35848354_tp20201216_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/35848354_tp20201216_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/37565833_tp20201218_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/37565833_tp20201218_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/38466294_tp20210123_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/38466294_tp20210123_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/39380641_tp20201216_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/39380641_tp20201216_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/40910763_tp20210202_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/40910763_tp20210202_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/41906325_tp20201108_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/41906325_tp20201108_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/43118124_tp20201130_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/43118124_tp20201130_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/43477001_tp20201213_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/43477001_tp20201213_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/44210364_tp20201207_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/44210364_tp20201207_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/44306854_tp20210112_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/44306854_tp20210112_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/46124104_tp20201218_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/46124104_tp20201218_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/46766205_tp20201223_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/46766205_tp20201223_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/46924063_tp20201222_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/46924063_tp20201222_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/47113804_tp20201206_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/47113804_tp20201206_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/47880957_tp20210124_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/47880957_tp20210124_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/49633823_tp20201226_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/49633823_tp20201226_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/50209927_tp20201210_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/50209927_tp20201210_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/51237266_tp20201206_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/51237266_tp20201206_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/51297509_tp20210124_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/51297509_tp20210124_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/51314202_tp20201123_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/51314202_tp20201123_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/52235814_tp20210120_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/52235814_tp20210120_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/53611536_tp20210129_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/53611536_tp20210129_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/53673053_tp20201228_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/53673053_tp20201228_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/53695154_tp20201126_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/53695154_tp20201126_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/54482197_tp20201124_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/54482197_tp20201124_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/55262620_tp20201211_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/55262620_tp20201211_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/55931957_tp20210113_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/55931957_tp20210113_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56022058_tp20201220_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56022058_tp20201220_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56154760_tp20201204_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56154760_tp20201204_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56218448_tp20201231_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56218448_tp20201231_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56235272_tp20210117_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56235272_tp20210117_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56392889_tp20201231_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/56392889_tp20201231_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/57388333_tp20201209_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/57388333_tp20201209_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/57474195_tp20201201_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/57474195_tp20201201_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58100079_tp20201106_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58100079_tp20201106_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58114326_tp20201124_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58114326_tp20201124_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58117705_tp20210106_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58117705_tp20210106_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58185520_tp20201220_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58185520_tp20201220_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58283525_tp20201122_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58283525_tp20201122_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58793844_tp20201115_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58793844_tp20201115_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58844735_tp20201112_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58844735_tp20201112_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58901948_tp20201220_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58901948_tp20201220_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58909959_tp20201213_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58909959_tp20201213_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58994539_tp20201226_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/58994539_tp20201226_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59019828_tp20210116_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59019828_tp20210116_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59070544_tp20201101_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59070544_tp20201101_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59286990_tp20201106_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59286990_tp20201106_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59289007_tp20201118_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59289007_tp20201118_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59294504_tp20201205_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59294504_tp20201205_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59601599_tp20210130_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59601599_tp20210130_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59898610_tp20201229_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59898610_tp20201229_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59971700_tp20201105_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/59971700_tp20201105_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60029344_tp20210110_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60029344_tp20210110_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60067238_tp20201103_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60067238_tp20201103_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60068185_tp20201218_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60068185_tp20201218_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60086448_tp20201103_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60086448_tp20201103_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60089074_tp20201123_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60089074_tp20201123_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60128359_tp20201112_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60128359_tp20201112_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60140962_tp20201105_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60140962_tp20201105_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60145998_tp20201125_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60145998_tp20201125_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60161217_tp20201223_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60161217_tp20201223_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60176048_tp20201114_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60176048_tp20201114_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60178169_tp20210110_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60178169_tp20210110_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60180410_tp20201206_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60180410_tp20201206_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60202303_tp20201130_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60202303_tp20201130_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60239716_tp20201218_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60239716_tp20201218_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60249612_tp20201220_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60249612_tp20201220_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60277345_tp20201222_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60277345_tp20201222_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60321824_tp20210106_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60321824_tp20210106_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60347561_tp20210119_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60347561_tp20210119_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60423838_tp20210105_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60423838_tp20210105_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60439376_tp20210106_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60439376_tp20210106_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60473802_tp20210112_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60473802_tp20210112_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60473833_tp20210115_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60473833_tp20210115_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60513407_tp20210130_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60513407_tp20210130_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60513692_tp20210125_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60513692_tp20210125_t1ce_coreg.nii.gz@SynoEAStream
 │   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60515908_tp20210202_t1ce_coreg.nii.gz
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60515908_tp20210202_t1ce_coreg.nii.gz@SynoEAStream
-│   │   │   ├── ./data/0_RAW_DATA/meta-t1ce/60538970_tp20210202_t1ce_coreg.nii.gz
-│   │   │   └── ./data/0_RAW_DATA/meta-t1ce/60538970_tp20210202_t1ce_coreg.nii.gz@SynoEAStream
-│   │   └── ./data/0_RAW_DATA/test
-│   │       ├── ./data/0_RAW_DATA/test/60538970_tp20210202_bb_coreg.nii.gz
-│   │       └── ./data/0_RAW_DATA/test/60538970_tp20210202_t1ce_coreg.nii.gz
-│   ├── ./data/1_PROCESSED
-│   │   ├── ./data/1_PROCESSED/train
-│   │   │   ├── ./data/1_PROCESSED/train/bb
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/12028537_tp20201206_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/13771269_tp20201224_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/15369028_tp20201215_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/18849484_tp20201124_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/19002581_tp20201106_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/19722063_tp20201127_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/20721084_tp20201219_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/20851512_tp20201209_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/21554713_tp20210128_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/24358370_tp20201105_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/29808508_tp20201104_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/30020803_tp20201212_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/33299064_tp20201116_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/34339097_tp20201124_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/34415643_tp20201221_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/35201296_tp20210108_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/35848354_tp20201216_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/37565833_tp20201218_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/38466294_tp20210123_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/39380641_tp20201216_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/40910763_tp20210202_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/44210364_tp20201207_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/46124104_tp20201218_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/46766205_tp20201223_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/46924063_tp20201222_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/47880957_tp20210124_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/49633823_tp20201226_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/50209927_tp20201210_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/51237266_tp20201206_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/51297509_tp20210124_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/51314202_tp20201123_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/52235814_tp20210120_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/53611536_tp20210129_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/53673053_tp20201228_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/53695154_tp20201126_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/54482197_tp20201124_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/55262620_tp20201211_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/55931957_tp20210113_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/56022058_tp20201220_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/56154760_tp20201204_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/56218448_tp20201231_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/56235272_tp20210117_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/56392889_tp20201231_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/57474195_tp20201201_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58100079_tp20201106_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58114326_tp20201124_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58117705_tp20210106_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58185520_tp20201220_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58283525_tp20201122_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58793844_tp20201115_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58844735_tp20201112_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58901948_tp20201220_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/58994539_tp20201226_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/59019828_tp20210116_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/59070544_tp20201101_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/59286990_tp20201106_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/59294504_tp20201205_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/59601599_tp20210130_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/59898610_tp20201229_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/59971700_tp20201105_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60029344_tp20210110_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60068185_tp20201218_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60086448_tp20201103_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60089074_tp20201123_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60128359_tp20201112_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60140962_tp20201105_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60161217_tp20201223_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60176048_tp20201114_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60178169_tp20210110_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60180410_tp20201206_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60239716_tp20201218_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60277345_tp20201222_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60321824_tp20210106_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60347561_tp20210119_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60423838_tp20210105_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60439376_tp20210106_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60473833_tp20210115_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60513407_tp20210130_bb_coreg.nii.gz
-│   │   │   │   ├── ./data/1_PROCESSED/train/bb/60515908_tp20210202_bb_coreg.nii.gz
-│   │   │   │   └── ./data/1_PROCESSED/train/bb/60538970_tp20210202_bb_coreg.nii.gz
-│   │   │   └── ./data/1_PROCESSED/train/t1ce
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/12028537_tp20201206_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/13771269_tp20201224_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/15369028_tp20201215_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/18849484_tp20201124_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/19002581_tp20201106_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/19722063_tp20201127_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/20721084_tp20201219_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/20851512_tp20201209_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/21554713_tp20210128_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/24358370_tp20201105_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/29808508_tp20201104_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/30020803_tp20201212_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/33299064_tp20201116_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/34339097_tp20201124_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/34415643_tp20201221_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/35201296_tp20210108_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/35848354_tp20201216_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/37565833_tp20201218_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/38466294_tp20210123_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/39380641_tp20201216_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/40910763_tp20210202_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/44210364_tp20201207_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/46124104_tp20201218_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/46766205_tp20201223_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/46924063_tp20201222_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/47880957_tp20210124_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/49633823_tp20201226_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/50209927_tp20201210_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/51237266_tp20201206_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/51297509_tp20210124_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/51314202_tp20201123_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/52235814_tp20210120_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/53611536_tp20210129_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/53673053_tp20201228_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/53695154_tp20201126_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/54482197_tp20201124_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/55262620_tp20201211_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/55931957_tp20210113_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/56022058_tp20201220_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/56154760_tp20201204_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/56218448_tp20201231_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/56235272_tp20210117_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/56392889_tp20201231_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/57474195_tp20201201_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58100079_tp20201106_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58114326_tp20201124_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58117705_tp20210106_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58185520_tp20201220_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58283525_tp20201122_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58793844_tp20201115_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58844735_tp20201112_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58901948_tp20201220_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/58994539_tp20201226_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/59019828_tp20210116_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/59070544_tp20201101_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/59286990_tp20201106_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/59294504_tp20201205_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/59601599_tp20210130_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/59898610_tp20201229_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/59971700_tp20201105_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60029344_tp20210110_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60068185_tp20201218_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60086448_tp20201103_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60089074_tp20201123_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60128359_tp20201112_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60140962_tp20201105_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60161217_tp20201223_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60176048_tp20201114_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60178169_tp20210110_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60180410_tp20201206_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60239716_tp20201218_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60277345_tp20201222_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60321824_tp20210106_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60347561_tp20210119_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60423838_tp20210105_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60439376_tp20210106_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60473833_tp20210115_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60513407_tp20210130_t1ce_coreg.nii.gz
-│   │   │       ├── ./data/1_PROCESSED/train/t1ce/60515908_tp20210202_t1ce_coreg.nii.gz
-│   │   │       └── ./data/1_PROCESSED/train/t1ce/60538970_tp20210202_t1ce_coreg.nii.gz
-│   │   └── ./data/1_PROCESSED/val
-│   │       ├── ./data/1_PROCESSED/val/bb
-│   │       │   ├── ./data/1_PROCESSED/val/bb/17530376_tp20201104_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/18482526_tp20210129_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/22354930_tp20201231_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/24365316_tp20201222_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/25401378_tp20201208_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/31861595_tp20210116_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/41906325_tp20201108_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/43118124_tp20201130_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/43477001_tp20201213_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/44306854_tp20210112_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/47113804_tp20201206_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/57388333_tp20201209_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/58909959_tp20201213_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/59289007_tp20201118_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/60067238_tp20201103_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/60145998_tp20201125_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/60202303_tp20201130_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/60249612_tp20201220_bb_coreg.nii.gz
-│   │       │   ├── ./data/1_PROCESSED/val/bb/60473802_tp20210112_bb_coreg.nii.gz
-│   │       │   └── ./data/1_PROCESSED/val/bb/60513692_tp20210125_bb_coreg.nii.gz
-│   │       └── ./data/1_PROCESSED/val/t1ce
-│   │           ├── ./data/1_PROCESSED/val/t1ce/17530376_tp20201104_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/18482526_tp20210129_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/22354930_tp20201231_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/24365316_tp20201222_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/25401378_tp20201208_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/31861595_tp20210116_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/41906325_tp20201108_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/43118124_tp20201130_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/43477001_tp20201213_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/44306854_tp20210112_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/47113804_tp20201206_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/57388333_tp20201209_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/58909959_tp20201213_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/59289007_tp20201118_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/60067238_tp20201103_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/60145998_tp20201125_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/60202303_tp20201130_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/60249612_tp20201220_t1ce_coreg.nii.gz
-│   │           ├── ./data/1_PROCESSED/val/t1ce/60473802_tp20210112_t1ce_coreg.nii.gz
-│   │           └── ./data/1_PROCESSED/val/t1ce/60513692_tp20210125_t1ce_coreg.nii.gz
-│   ├── ./data/3_Check_point
+│   │   │   └── ./data/0_RAW_DATA/meta-t1ce/60538970_tp20210202_t1ce_coreg.nii.gz
+│   │   └── ./data/0_RAW_DATA/tree.txt
+│   ├── ./data/1_SPLIT_DATA
+│   │   ├── ./data/1_SPLIT_DATA/train
+│   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/13771269_tp20201224_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/15369028_tp20201215_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/17530376_tp20201104_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/18482526_tp20210129_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/18849484_tp20201124_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/19002581_tp20201106_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/19722063_tp20201127_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/20721084_tp20201219_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/20851512_tp20201209_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/22354930_tp20201231_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/24358370_tp20201105_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/24365316_tp20201222_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/25401378_tp20201208_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/29808508_tp20201104_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/30020803_tp20201212_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/31861595_tp20210116_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/33299064_tp20201116_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/34339097_tp20201124_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/34415643_tp20201221_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/35201296_tp20210108_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/37565833_tp20201218_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/38466294_tp20210123_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/39380641_tp20201216_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/40910763_tp20210202_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/41906325_tp20201108_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/43118124_tp20201130_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/43477001_tp20201213_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/44210364_tp20201207_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/44306854_tp20210112_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/46124104_tp20201218_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/46766205_tp20201223_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/46924063_tp20201222_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/47113804_tp20201206_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/47880957_tp20210124_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/49633823_tp20201226_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/50209927_tp20201210_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/51297509_tp20210124_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/51314202_tp20201123_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/52235814_tp20210120_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/53611536_tp20210129_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/54482197_tp20201124_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/55262620_tp20201211_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/55931957_tp20210113_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/56022058_tp20201220_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/56154760_tp20201204_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/56218448_tp20201231_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/56235272_tp20210117_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/57388333_tp20201209_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/57474195_tp20201201_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58100079_tp20201106_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58114326_tp20201124_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58117705_tp20210106_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58185520_tp20201220_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58283525_tp20201122_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58793844_tp20201115_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58844735_tp20201112_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58901948_tp20201220_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58909959_tp20201213_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/58994539_tp20201226_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/59019828_tp20210116_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/59070544_tp20201101_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/59286990_tp20201106_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/59289007_tp20201118_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/59601599_tp20210130_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/59898610_tp20201229_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/59971700_tp20201105_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60029344_tp20210110_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60067238_tp20201103_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60068185_tp20201218_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60086448_tp20201103_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60089074_tp20201123_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60128359_tp20201112_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60145998_tp20201125_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60161217_tp20201223_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60178169_tp20210110_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60180410_tp20201206_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60202303_tp20201130_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60239716_tp20201218_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60249612_tp20201220_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60277345_tp20201222_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60321824_tp20210106_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60347561_tp20210119_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60423838_tp20210105_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60439376_tp20210106_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60473802_tp20210112_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60473833_tp20210115_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60513407_tp20210130_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60513692_tp20210125_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/train/meta-bb/60515908_tp20210202_bb_coreg.nii.gz
+│   │   │   │   └── ./data/1_SPLIT_DATA/train/meta-bb/60538970_tp20210202_bb_coreg.nii.gz
+│   │   │   └── ./data/1_SPLIT_DATA/train/meta-t1ce
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/13771269_tp20201224_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/15369028_tp20201215_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/17530376_tp20201104_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/18482526_tp20210129_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/18849484_tp20201124_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/19002581_tp20201106_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/19722063_tp20201127_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/20721084_tp20201219_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/20851512_tp20201209_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/22354930_tp20201231_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/24358370_tp20201105_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/24365316_tp20201222_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/25401378_tp20201208_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/29808508_tp20201104_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/30020803_tp20201212_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/31861595_tp20210116_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/33299064_tp20201116_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/34339097_tp20201124_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/34415643_tp20201221_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/35201296_tp20210108_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/37565833_tp20201218_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/38466294_tp20210123_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/39380641_tp20201216_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/40910763_tp20210202_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/41906325_tp20201108_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/43118124_tp20201130_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/43477001_tp20201213_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/44210364_tp20201207_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/44306854_tp20210112_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/46124104_tp20201218_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/46766205_tp20201223_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/46924063_tp20201222_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/47113804_tp20201206_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/47880957_tp20210124_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/49633823_tp20201226_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/50209927_tp20201210_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/51297509_tp20210124_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/51314202_tp20201123_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/52235814_tp20210120_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/53611536_tp20210129_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/54482197_tp20201124_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/55262620_tp20201211_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/55931957_tp20210113_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/56022058_tp20201220_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/56154760_tp20201204_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/56218448_tp20201231_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/56235272_tp20210117_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/57388333_tp20201209_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/57474195_tp20201201_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58100079_tp20201106_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58114326_tp20201124_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58117705_tp20210106_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58185520_tp20201220_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58283525_tp20201122_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58793844_tp20201115_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58844735_tp20201112_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58901948_tp20201220_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58909959_tp20201213_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/58994539_tp20201226_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/59019828_tp20210116_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/59070544_tp20201101_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/59286990_tp20201106_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/59289007_tp20201118_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/59601599_tp20210130_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/59898610_tp20201229_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/59971700_tp20201105_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60029344_tp20210110_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60067238_tp20201103_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60068185_tp20201218_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60086448_tp20201103_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60089074_tp20201123_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60128359_tp20201112_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60145998_tp20201125_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60161217_tp20201223_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60178169_tp20210110_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60180410_tp20201206_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60202303_tp20201130_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60239716_tp20201218_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60249612_tp20201220_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60277345_tp20201222_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60321824_tp20210106_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60347561_tp20210119_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60423838_tp20210105_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60439376_tp20210106_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60473802_tp20210112_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60473833_tp20210115_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60513407_tp20210130_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60513692_tp20210125_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/train/meta-t1ce/60515908_tp20210202_t1ce_coreg.nii.gz
+│   │   │       └── ./data/1_SPLIT_DATA/train/meta-t1ce/60538970_tp20210202_t1ce_coreg.nii.gz
+│   │   ├── ./data/1_SPLIT_DATA/val
+│   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/12028537_tp20201206_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/21554713_tp20210128_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/35848354_tp20201216_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/51237266_tp20201206_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/53673053_tp20201228_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/53695154_tp20201126_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/56392889_tp20201231_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/59294504_tp20201205_bb_coreg.nii.gz
+│   │   │   │   ├── ./data/1_SPLIT_DATA/val/meta-bb/60140962_tp20201105_bb_coreg.nii.gz
+│   │   │   │   └── ./data/1_SPLIT_DATA/val/meta-bb/60176048_tp20201114_bb_coreg.nii.gz
+│   │   │   └── ./data/1_SPLIT_DATA/val/meta-t1ce
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/12028537_tp20201206_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/21554713_tp20210128_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/35848354_tp20201216_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/51237266_tp20201206_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/53673053_tp20201228_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/53695154_tp20201126_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/56392889_tp20201231_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/59294504_tp20201205_t1ce_coreg.nii.gz
+│   │   │       ├── ./data/1_SPLIT_DATA/val/meta-t1ce/60140962_tp20201105_t1ce_coreg.nii.gz
+│   │   │       └── ./data/1_SPLIT_DATA/val/meta-t1ce/60176048_tp20201114_t1ce_coreg.nii.gz
+│   │   └── ./data/1_SPLIT_DATA/val_sample
+│   │       ├── ./data/1_SPLIT_DATA/val_sample/meta-bb
+│   │       │   ├── ./data/1_SPLIT_DATA/val_sample/meta-bb/12028537_tp20201206_bb_coreg.nii.gz
+│   │       │   └── ./data/1_SPLIT_DATA/val_sample/meta-bb/@eaDir
+│   │       │       └── ./data/1_SPLIT_DATA/val_sample/meta-bb/@eaDir/12028537_tp20201206_bb_coreg.nii.gz@SynoEAStream
+│   │       └── ./data/1_SPLIT_DATA/val_sample/meta-t1ce
+│   │           ├── ./data/1_SPLIT_DATA/val_sample/meta-t1ce/12028537_tp20201206_t1ce_coreg.nii.gz
+│   │           └── ./data/1_SPLIT_DATA/val_sample/meta-t1ce/@eaDir
+│   │               └── ./data/1_SPLIT_DATA/val_sample/meta-t1ce/@eaDir/12028537_tp20201206_t1ce_coreg.nii.gz@SynoEAStream
 │   ├── ./data/eda_summary.csv
 │   └── ./data/metadata.csv
 ├── ./datasets
@@ -821,37 +729,50 @@
 │   ├── ./datasets/transforms.py
 │   └── ./datasets/utils.py
 ├── ./functions
+│   ├── ./functions/denoising.py
 │   ├── ./functions/__init__.py
 │   ├── ./functions/losses.py
-│   ├── ./functions/metrics.py
-│   ├── ./functions/noise_scheduler.py
-│   └── ./functions/visualization.py
+│   ├── ./functions/resampling.py
+│   ├── ./functions/utils.py
+│   └── ./functions/z_score.py
 ├── ./logs
 │   ├── ./logs/checkpoints
+│   │   ├── ./logs/checkpoints/dtdm_epoch_10.pt
+│   │   ├── ./logs/checkpoints/dtdm_epoch_2.pt
+│   │   ├── ./logs/checkpoints/dtdm_epoch_4.pt
+│   │   ├── ./logs/checkpoints/dtdm_epoch_6.pt
+│   │   ├── ./logs/checkpoints/dtdm_epoch_8.pt
+│   │   ├── ./logs/checkpoints/epoch_10.pt
+│   │   ├── ./logs/checkpoints/epoch_2.pt
+│   │   ├── ./logs/checkpoints/epoch_4.pt
+│   │   ├── ./logs/checkpoints/epoch_6.pt
+│   │   └── ./logs/checkpoints/epoch_8.pt
+│   ├── ./logs/samples
 │   └── ./logs/wandb
+│       └── ./logs/wandb/wandb
 ├── ./main.py
 ├── ./models
-│   ├── ./models/ddpm.py
-│   ├── ./models/diffusion_unet_custom.py
-│   ├── ./models/ema.py
-│   └── ./models/__init__.py
+│   ├── ./models/ema_helper.py
+│   ├── ./models/__init__.py
+│   └── ./models/unet_ddpm.py
 ├── ./outputs
 │   ├── ./outputs/test
 │   └── ./outputs/validation
 ├── ./README.md
 ├── ./requirements.txt
 ├── ./runners
+│   ├── ./runners/diffusion.py
+│   ├── ./runners/@eaDir
+│   │   └── ./runners/@eaDir/diffusion.py@SynoEAStream
 │   ├── ./runners/__init__.py
-│   ├── ./runners/tester.py
-│   ├── ./runners/trainer.py
-│   └── ./runners/validator.py
+│   ├── ./runners/train_ddpm.py
+│   └── ./runners/val_ddpm.py
 ├── ./scripts
 │   ├── ./scripts/__init__.py
 │   ├── ./scripts/move_t1ce_files.py
 │   ├── ./scripts/prepare_metadata.py
 │   └── ./scripts/visualize_sample.py
 ├── ./test.ipynb
-├── ./test_metadata.csv
 └── ./tree.txt
 
-28 directories, 826 files
+34 directories, 741 files

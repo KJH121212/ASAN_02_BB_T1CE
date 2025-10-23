@@ -1,41 +1,48 @@
 # ================================================================
 # functions/losses.py
-# 학습 손실
+# Diffusion 학습 손실 (BB → T1CE)
 # ================================================================
-import torch
-
 
 import torch
 
-def noise_estimation_loss(model, x0, x_c, t, e, b):
+
+def noise_estimation_loss(model,
+                          x0: torch.Tensor,
+                          x_c: torch.Tensor,
+                          t: torch.LongTensor,
+                          e: torch.Tensor,
+                          b: torch.Tensor):
     """
+    Diffusion 모델 학습용 노이즈 예측 손실 함수
+
     Args:
-        model: diffusion model
-        x0: target image (T1CE)       → (B, 1, H, W)
-        x_c: conditional image (BB)   → (B, 1, H, W)
-        t: timestep tensor            → (B,)
-        e: random noise tensor        → (B, 1, H, W)
-        b: beta schedule              → (T,)
+        model (torch.nn.Module): 학습 중인 Diffusion 모델
+        x0 (torch.Tensor): 원본 깨끗한 이미지 (target 이미지, 예: T1CE)
+        x_c (torch.Tensor): 조건부 입력 이미지 (예: BB)
+        t (torch.LongTensor): timestep (diffusion 단계)
+        e (torch.Tensor): 랜덤 노이즈 (가우시안 분포에서 샘플링)
+        b (torch.Tensor): 베타 스케줄 (beta_t 값, 길이=T)
+
+    Returns:
+        torch.Tensor: 예측 노이즈와 실제 노이즈의 MSE 손실 값
     """
-    device = x0.device
 
-    # 1️⃣ Alpha 계산
-    a = (1 - b).cumprod(dim=0).to(device)             # (T,)
-    a_t = a[t].unsqueeze(1).unsqueeze(2).unsqueeze(3) # (B, 1, 1, 1)
+    # alpha_t 계산 : 각 t 단계에서 남아있는 "signal 비율"
+    a = (1 - b).cumprod(dim=0).index_select(0, t).view(-1, 1, 1, 1)
 
-    # 2️⃣ Forward noising step
-    xt = x0 * a_t.sqrt() + e * (1.0 - a_t).sqrt()     # (B, 1, H, W)
+    # 깨끗한 이미지 x0에 노이즈 e를 추가한 버전 생성
+    xt = x0 * a.sqrt() + e * (1.0 - a).sqrt()
 
-    # 3️⃣ Conditional 입력 결합
-    x_in = torch.cat([xt, x_c], dim=1)                # (B, 2, H, W)
+    # [noisy 이미지 xt, 조건 이미지 x_c]를 채널 방향으로 합침
+    x = torch.cat([xt, x_c], dim=1)
 
-    # 4️⃣ Model prediction
-    output, _ = model(x_in, t.float())                # (B, 1, H, W)
+    # noisy 이미지 xt와 timestep t를 입력받아 각 픽셀의 노이즈 값을 예측하도록 학습됨
+    output, _ = model(x, t.float())
 
-    # 5️⃣ Loss 계산
-    loss = torch.mean((e - output) ** 2)
-    return loss
+    # 손실 계산 (예측 노이즈 vs 실제 노이즈) (MSE)
+    noise_loss = (e - output).square().sum(dim=(1, 2, 3)).mean(dim=0)
 
+    return noise_loss
 
 # 손실 함수 레지스트리
 loss_registry = {

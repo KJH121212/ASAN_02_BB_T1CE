@@ -105,19 +105,22 @@ class ResnetBlock(nn.Module):   # ResNet 기반 블록 정의
         h = self.conv2(h)  # 두 번째 conv 수행
 
         if self.in_channels != self.out_channels:  # 차원 다를 경우 skip 경로 맞추기
-            x = self.conv_shortcut(x) if self.use_conv_shortcut else self.nin_shortcut(x)
+            if self.use_conv_shortcut:
+                x = self.conv_shortcut(x)
+            else:
+                x = self.nin_shortcut(x)
 
         return x + h  # skip connection으로 출력 결합
 
 
-class AttnBlock(nn.Module):  # self-attention 블록 정의
-    def __init__(self, in_channels):  # 입력 채널 수 설정
-        super().__init__()  # 부모 클래스 초기화
-        self.in_channels = in_channels  # 채널 수 저장
-        self.norm = Normalize(in_channels)  # 정규화 레이어
-        self.q = nn.Conv2d(in_channels, in_channels, 1)  # Query 생성 conv
-        self.k = nn.Conv2d(in_channels, in_channels, 1)  # Key 생성 conv
-        self.v = nn.Conv2d(in_channels, in_channels, 1)  # Value 생성 conv
+class AttnBlock(nn.Module):                                     # self-attention 블록 정의
+    def __init__(self, in_channels):                            # 입력 채널 수 설정
+        super().__init__()  
+        self.in_channels = in_channels                          # 채널 수 저장
+        self.norm = Normalize(in_channels)                      # 정규화 레이어
+        self.q = nn.Conv2d(in_channels, in_channels, 1)         # Query 생성 conv
+        self.k = nn.Conv2d(in_channels, in_channels, 1)         # Key 생성 conv
+        self.v = nn.Conv2d(in_channels, in_channels, 1)         # Value 생성 conv
         self.proj_out = nn.Conv2d(in_channels, in_channels, 1)  # 출력 투영 conv
 
     def forward(self, x):  # 순전파 정의
@@ -175,32 +178,32 @@ class Model(nn.Module):  # 전체 UNet 모델 정의
         self.down = nn.ModuleList()  # 다운샘플 블록 리스트 초기화
 
         block_in = None
-        for i_level in range(self.num_resolutions):  # 각 해상도 단계에 대해 반복
-            block = nn.ModuleList()  # 블록 리스트
-            attn = nn.ModuleList()  # attention 리스트
-            block_in = ch * in_ch_mult[i_level]  # 입력 채널 계산
-            block_out = ch * ch_mult[i_level]  # 출력 채널 계산
-            for i_block in range(self.num_res_blocks):  # 블록 반복
+        for i_level in range(self.num_resolutions):                                         # 각 해상도 단계에 대해 반복
+            block = nn.ModuleList()                                                         # 블록 리스트
+            attn = nn.ModuleList()                                                          # attention 리스트
+            block_in = ch * in_ch_mult[i_level]                                             # 입력 채널 계산
+            block_out = ch * ch_mult[i_level]                                               # 출력 채널 계산
+            for i_block in range(self.num_res_blocks):                                      # 블록 반복
                 block.append(ResnetBlock(in_channels=block_in, out_channels=block_out,
-                                         temb_channels=self.temb_ch, dropout=dropout))  # ResnetBlock 추가
-                block_in = block_out  # 입력 채널 갱신
-                if curr_res in attn_resolutions:  # 해당 해상도에 attention 적용 시
-                    attn.append(AttnBlock(block_in))  # attention 블록 추가
+                                         temb_channels=self.temb_ch, dropout=dropout))      # ResnetBlock 추가
+                block_in = block_out                                                        # 입력 채널 갱신
+                if curr_res in attn_resolutions:                                            # 해당 해상도에 attention 적용 시
+                    attn.append(AttnBlock(block_in))                                        # attention 블록 추가
             down = nn.Module()
-            down.block = block  # 블록 연결
-            down.attn = attn  # attention 연결
-            if i_level != self.num_resolutions - 1:  # 마지막 단계가 아니면
-                down.downsample = Downsample(block_in, resamp_with_conv)  # 다운샘플 추가
-                curr_res //= 2  # 해상도 절반 감소
-            self.down.append(down)  # 전체 down 리스트에 추가
+            down.block = block                                                      # 블록 연결
+            down.attn = attn                                                        # attention 연결
+            if i_level != self.num_resolutions - 1:                                 # 마지막 단계가 아니면
+                down.downsample = Downsample(block_in, resamp_with_conv)                # 다운샘플 추가
+                curr_res //= 2                                                          # 해상도 절반 감소
+            self.down.append(down)                                                  # 전체 down 리스트에 추가
 
         # ======================================================
         # Middle (Bottleneck)
         # ======================================================
         self.mid = nn.Module()
-        self.mid.block_1 = ResnetBlock(in_channels=block_in, dropout=dropout, temb_channels=self.temb_ch)  # 첫 ResBlock
-        self.mid.attn_1 = AttnBlock(block_in)  # attention 블록
-        self.mid.block_2 = ResnetBlock(in_channels=block_in, dropout=dropout, temb_channels=self.temb_ch)  # 두 번째 ResBlock
+        self.mid.block_1 = ResnetBlock(in_channels=block_in, dropout=dropout, temb_channels=self.temb_ch)  # 첫 feature refine & timestep 정보 융합
+        self.mid.attn_1 = AttnBlock(block_in)  #  Global Dependency 학습
+        self.mid.block_2 = ResnetBlock(in_channels=block_in, dropout=dropout, temb_channels=self.temb_ch)  # Global Dependency feature 세밀하게 다듬기
 
         # ======================================================
         # Upsampling Path (Decoder)
