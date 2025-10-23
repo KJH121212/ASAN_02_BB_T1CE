@@ -2,11 +2,12 @@ import os
 import time
 import logging
 import torch
+import numpy as np
 from torch.utils.data import DataLoader
-from datasets.concatbbt1ce import ConcatBBT1CEDataset
-from models.diffusion import Model
-from models.ema import EMAHelper
-from functions import get_optimizer
+from datasets.paired_dataset import Train_Dataset
+from models.unet_ddpm import Model
+from models.ema_helper import EMAHelper
+from functions.utils import get_optimizer
 from functions.losses import loss_registry
 
 
@@ -17,7 +18,7 @@ def train_diffusion(config, device):
     t1ce_dir = os.path.join(data_dir, config.data.t1ce_dir)             # T1CE 이미지 폴더
 
     # 데이터셋 및 DataLoader 정의
-    dataset = ConcatBBT1CEDataset(bb_dir=bb_dir, t1ce_dir=t1ce_dir)     # (BB, T1CE) 쌍 데이터셋 생성
+    dataset = Train_Dataset(bb_dir=bb_dir, t1ce_dir=t1ce_dir)     # (BB, T1CE) 쌍 데이터셋 생성
     train_loader = DataLoader(
         dataset,
         batch_size=1,                                                  # 한 번에 하나의 환자(volume) 로드
@@ -49,13 +50,27 @@ def train_diffusion(config, device):
         if ema_helper:
             ema_helper.load_state_dict(states[4])                      # EMA 파라미터 복원
 
-    # ------------------------------------------------------------
     # ✅ 6️⃣ Diffusion 스케줄 설정
-    # ------------------------------------------------------------
-    betas = torch.from_numpy(config.diffusion.betas).float().to(device) # beta 스케줄을 텐서로 변환
-    num_timesteps = betas.shape[0]                                      # 전체 타임스텝 개수 저장
-    tb_logger = config.tb_logger                                        # TensorBoard 로거 가져오기
-    log_path = config.model.log_path                                    # 로그 및 모델 저장 경로
+    if not hasattr(config.diffusion, "betas"):
+        # βt 스케줄 생성
+        if config.diffusion.beta_schedule == "linear":
+            config.diffusion.betas = np.linspace(
+                config.diffusion.beta_start,
+                config.diffusion.beta_end,
+                config.diffusion.num_diffusion_timesteps,
+                dtype=np.float64,
+            )
+        elif config.diffusion.beta_schedule == "cosine":
+            # cosine 스케줄 (논문 공식)
+            steps = config.diffusion.num_diffusion_timesteps
+            s = 0.008
+            x = np.linspace(0, steps, steps + 1)
+            alphas_cumprod = np.cos(((x / steps) + s) / (1 + s) * np.pi * 0.5) ** 2
+            alphas_cumprod = alphas_cumprod / alphas_cumprod[0]
+            betas = 1 - (alphas_cumprod[1:] / alphas_cumprod[:-1])
+            config.diffusion.betas = np.clip(betas, 1e-8, 0.999)
+        else:
+            raise ValueError(f"❌ Unknown beta_schedule: {config.diffusion.beta_schedule}")
 
     # ------------------------------------------------------------
     # ✅ 7️⃣ 학습 루프 시작
