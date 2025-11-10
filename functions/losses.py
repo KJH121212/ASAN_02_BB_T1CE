@@ -1,10 +1,4 @@
-# ================================================================
-# functions/losses.py
-# Diffusion 학습 손실 (BB → T1CE)
-# ================================================================
-
 import torch
-
 
 def noise_estimation_loss(model,
                           x0: torch.Tensor,

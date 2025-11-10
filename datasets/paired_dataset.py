@@ -38,33 +38,26 @@ class Train_Dataset(Dataset):
         return len(self.source_paths)
 
     def __getitem__(self, idx):
-        # --------------------------------------------------------
-        # 1️⃣ 파일 로드
-        # --------------------------------------------------------
+        # 파일 로드
         src_itk = sitk.ReadImage(self.source_paths[idx])
         tar_itk = sitk.ReadImage(self.target_paths[idx])
 
-        # --------------------------------------------------------
-        # 2️⃣ Resampling
-        # --------------------------------------------------------
+        # Resampling
         original_size = src_itk.GetSize()  # (x, y, z)
         out_size = (self.img_size, self.img_size, original_size[2])  # Z는 그대로 유지
 
         src_resampled = resample_img(src_itk, out_size)
         tar_resampled = resample_img(tar_itk, out_size)
 
-        # --------------------------------------------------------
-        # 3️⃣ NumPy 변환 및 정규화
-        # --------------------------------------------------------
+        # NumPy 변환 및 정규화
         src_arr = sitk.GetArrayFromImage(src_resampled).astype(np.float32)
         tar_arr = sitk.GetArrayFromImage(tar_resampled).astype(np.float32)
 
-        src_arr = zscore(src_arr)
-        tar_arr = zscore(tar_arr)
+        # 정규화
+        src_arr, _, _ = zscore(src_arr)
+        tar_arr, _, _ = zscore(tar_arr)
 
-        # --------------------------------------------------------
-        # 4️⃣ Tensor 변환 및 채널 결합
-        # --------------------------------------------------------
+        # Tensor 변환 및 채널 결합
         src_tensor = torch.from_numpy(src_arr).unsqueeze(0)  # (1, Z, H, W)
         tar_tensor = torch.from_numpy(tar_arr).unsqueeze(0)
         concat_tensor = torch.cat([src_tensor, tar_tensor], dim=0)  # (C=2, Z, H, W)

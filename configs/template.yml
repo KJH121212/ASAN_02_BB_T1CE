@@ -20,11 +20,9 @@ data:
   root_dir: "/workspace/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/data/1_SPLIT-DATA/train" # 데이터 루트 디렉토리
   source_dir: "meta-bb"                                     # BB 볼륨 폴더명
   target_dir: "meta-t1ce"                                 # T1CE 볼륨 폴더명
-  n_slices_per_vol: 4                                   # 한 볼륨당 사용할 슬라이스 개수
   batch_size: 10                                         # 학습 배치 크기
   num_workers: 2                                        # DataLoader 병렬 작업 수
   image_size: 256                                       # 입력 이미지 크기 (H=W)
-  channels: 1                                           # 입력 채널 수
   shuffle: True                                         # 데이터 섞기 여부
   pin_memory: True                                      # CUDA pinned memory 사용 여부
 
@@ -40,19 +38,17 @@ model:
   out_ch: 1               # 출력 채널 수 (예측할 노이즈)
 
   # [Network capacity]
-  ch: 128                  # 첫 convolution의 base channel 수
-  ch_mult: [1, 2, 2, 4]   # 각 해상도 단계별 채널 multiplier
-  num_res_blocks: 2       # 각 단계별 residual block 개수
-  attn_resolutions: [64,]  # self-attention을 적용할 해상도
-  dropout: 0.1            # dropout 비율
-  ema_rate: 0.9999
+  ch: 128                   # 첫 convolution의 base channel 수
+  ch_mult: [1, 2, 2, 4]     # 각 해상도 단계별 채널 multiplier
+  num_res_blocks: 2         # 각 단계별 residual block 개수
+  attn_resolutions: [64,]   # self-attention을 적용할 해상도
+  dropout: 0.1              # dropout 비율
   ema: False
-  resamp_with_conv: True  # 업/다운샘플 시 convolution 사용 여부
+  ema_rate: 0.9999
+  resamp_with_conv: True    # 업/다운샘플 시 convolution 사용 여부
 
   # [Training-specific]
-  use_ema: True           # EMA(지수이동평균) 사용 여부
-  ema_decay: 0.9999       # EMA decay factor
-  var_type: fixedlarge    # 분산 추정 방식 ('fixedsmall', 'fixedlarge')
+  var_type: fixedlarge      # 분산 추정 방식 ('fixedsmall', 'fixedlarge')
   resume_training: false
   log_path: "/workspace/nas100/forGPU2/Kimjihoo/ASAN_02_BB_T1CE/logs"             # 로그 저장 경로
 

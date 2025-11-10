@@ -9,16 +9,21 @@ from models.unet_ddpm import Model
 from models.ema_helper import EMAHelper
 from functions.utils import get_optimizer
 from functions.losses import loss_registry
+from torch.utils.tensorboard import SummaryWriter
 
 
 def train_diffusion(config, device):
+    # TensorBoard logger 설정 (config.exp.log_dir 사용)
+    os.makedirs(config.exp.log_dir, exist_ok=True)
+    tb_logger = SummaryWriter(log_dir=config.exp.log_dir)
+
     # 데이터 경로 설정
     data_dir = config.data.model_dir_path                               # 데이터 루트 폴더
-    bb_dir = os.path.join(data_dir, config.data.bb_dir)                 # BB 이미지 폴더
-    t1ce_dir = os.path.join(data_dir, config.data.t1ce_dir)             # T1CE 이미지 폴더
+    source_dir = os.path.join(data_dir, config.data.source_dir)                 # BB 이미지 폴더
+    target_dir = os.path.join(data_dir, config.data.target_dir)             # T1CE 이미지 폴더
 
     # 데이터셋 및 DataLoader 정의
-    dataset = Train_Dataset(bb_dir=bb_dir, t1ce_dir=t1ce_dir)     # (BB, T1CE) 쌍 데이터셋 생성
+    dataset = Train_Dataset(source_dir=source_dir, target_dir=target_dir)     # (BB, T1CE) 쌍 데이터셋 생성
     train_loader = DataLoader(
         dataset,
         batch_size=1,                                                  # 한 번에 하나의 환자(volume) 로드
@@ -50,9 +55,8 @@ def train_diffusion(config, device):
         if ema_helper:
             ema_helper.load_state_dict(states[4])                      # EMA 파라미터 복원
 
-    # ✅ 6️⃣ Diffusion 스케줄 설정
+    # Diffusion 스케줄 설정
     if not hasattr(config.diffusion, "betas"):
-        # βt 스케줄 생성
         if config.diffusion.beta_schedule == "linear":
             config.diffusion.betas = np.linspace(
                 config.diffusion.beta_start,
@@ -61,7 +65,6 @@ def train_diffusion(config, device):
                 dtype=np.float64,
             )
         elif config.diffusion.beta_schedule == "cosine":
-            # cosine 스케줄 (논문 공식)
             steps = config.diffusion.num_diffusion_timesteps
             s = 0.008
             x = np.linspace(0, steps, steps + 1)
@@ -72,8 +75,12 @@ def train_diffusion(config, device):
         else:
             raise ValueError(f"❌ Unknown beta_schedule: {config.diffusion.beta_schedule}")
 
+    # ✅ 반드시 추가
+    betas = torch.from_numpy(config.diffusion.betas).float().to(device)
+    num_timesteps = betas.shape[0]
+
     # ------------------------------------------------------------
-    # ✅ 7️⃣ 학습 루프 시작
+    # 학습 루프 시작
     # ------------------------------------------------------------
     for epoch in range(start_epoch, config.training.n_epochs):          # 전체 epoch 반복
         data_start = time.time()                                        # 데이터 로딩 시간 측정 시작
